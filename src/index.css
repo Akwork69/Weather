@@ -1,0 +1,457 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    /* Base palette - Dreamy atmospheric */
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 10%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 38 92% 60%;
+    --primary-foreground: 222 47% 6%;
+
+    --secondary: 210 40% 20%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 199 89% 48%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 38 92% 60%;
+
+    --radius: 1rem;
+
+    /* Weather-specific colors */
+    --sky-day-start: 199 89% 70%;
+    --sky-day-mid: 210 80% 60%;
+    --sky-day-end: 220 70% 50%;
+    
+    --sky-night-start: 240 50% 8%;
+    --sky-night-mid: 250 60% 12%;
+    --sky-night-end: 260 40% 18%;
+    
+    --sky-sunset-start: 25 100% 65%;
+    --sky-sunset-mid: 340 80% 55%;
+    --sky-sunset-end: 280 60% 40%;
+    
+    --sky-sunrise-start: 35 100% 70%;
+    --sky-sunrise-mid: 20 90% 60%;
+    --sky-sunrise-end: 340 70% 50%;
+
+    /* Weather condition colors */
+    --rain-primary: 200 90% 50%;
+    --rain-secondary: 210 85% 40%;
+    --snow-primary: 200 30% 95%;
+    --snow-secondary: 210 20% 85%;
+    --storm-primary: 250 50% 30%;
+    --storm-secondary: 260 60% 20%;
+    --fog-primary: 200 10% 70%;
+    --fog-secondary: 210 5% 50%;
+    --clear-primary: 38 92% 60%;
+    --clear-secondary: 45 100% 70%;
+    
+    /* Glassmorphism */
+    --glass-bg: 222 47% 11% / 0.6;
+    --glass-border: 210 40% 98% / 0.1;
+    --glass-highlight: 210 40% 98% / 0.05;
+    
+    /* Glow effects */
+    --glow-sun: 38 100% 50%;
+    --glow-moon: 220 60% 70%;
+    --glow-rain: 200 90% 50%;
+    --glow-storm: 280 80% 50%;
+
+    /* Sidebar (keeping for compatibility) */
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 38 92% 60%;
+    --sidebar-primary-foreground: 222 47% 6%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 38 92% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+}
+
+@layer components {
+  /* Glassmorphism card */
+  .glass-card {
+    @apply relative overflow-hidden rounded-2xl;
+    background: hsl(var(--glass-bg));
+    border: 1px solid hsl(var(--glass-border));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .glass-card::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--glass-highlight)) 0%,
+      transparent 50%
+    );
+  }
+
+  /* Atmospheric glow */
+  .glow-sun {
+    box-shadow: 
+      0 0 60px 30px hsl(var(--glow-sun) / 0.3),
+      0 0 100px 60px hsl(var(--glow-sun) / 0.2),
+      0 0 140px 90px hsl(var(--glow-sun) / 0.1);
+  }
+
+  .glow-moon {
+    box-shadow: 
+      0 0 60px 30px hsl(var(--glow-moon) / 0.3),
+      0 0 100px 60px hsl(var(--glow-moon) / 0.2),
+      0 0 140px 90px hsl(var(--glow-moon) / 0.1);
+  }
+
+  /* Weather text gradient */
+  .text-weather-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--foreground)) 0%,
+      hsl(var(--muted-foreground)) 100%
+    );
+  }
+
+  /* Cinematic text */
+  .text-cinematic {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      180deg,
+      hsl(var(--foreground)) 0%,
+      hsl(var(--foreground) / 0.7) 100%
+    );
+    text-shadow: 0 0 80px hsl(var(--primary) / 0.5);
+  }
+
+  /* Ambient pulse */
+  .ambient-pulse {
+    animation: ambient-pulse 4s ease-in-out infinite;
+  }
+
+  /* Carousel item */
+  .carousel-item {
+    @apply glass-card p-4 cursor-pointer transition-all duration-500;
+    min-width: 180px;
+  }
+
+  .carousel-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: hsl(var(--primary) / 0.3);
+    box-shadow: 0 20px 40px -20px hsl(var(--primary) / 0.3);
+  }
+
+  /* Search input styling */
+  .search-input {
+    @apply glass-card px-6 py-4 w-full text-foreground placeholder:text-muted-foreground;
+    background: hsl(var(--glass-bg));
+    border: 1px solid hsl(var(--glass-border));
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  .search-input:focus {
+    border-color: hsl(var(--primary) / 0.5);
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.2);
+  }
+
+  /* Volumetric light beam */
+  .light-beam {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--primary) / 0.3) 0%,
+      transparent 100%
+    );
+    filter: blur(40px);
+  }
+
+  /* Weather particle container */
+  .particles-container {
+    @apply fixed inset-0 pointer-events-none overflow-hidden;
+    z-index: 1;
+  }
+}
+
+@layer utilities {
+  /* Smooth gradient backgrounds */
+  .bg-sky-day {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--sky-day-start)) 0%,
+      hsl(var(--sky-day-mid)) 50%,
+      hsl(var(--sky-day-end)) 100%
+    );
+  }
+
+  .bg-sky-night {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--sky-night-start)) 0%,
+      hsl(var(--sky-night-mid)) 50%,
+      hsl(var(--sky-night-end)) 100%
+    );
+  }
+
+  .bg-sky-sunset {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--sky-sunset-start)) 0%,
+      hsl(var(--sky-sunset-mid)) 50%,
+      hsl(var(--sky-sunset-end)) 100%
+    );
+  }
+
+  .bg-sky-sunrise {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--sky-sunrise-start)) 0%,
+      hsl(var(--sky-sunrise-mid)) 50%,
+      hsl(var(--sky-sunrise-end)) 100%
+    );
+  }
+
+  /* Noise texture overlay */
+  .noise-overlay {
+    position: relative;
+  }
+
+  .noise-overlay::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none opacity-[0.03];
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Custom scrollbar for carousel */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.3) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.3);
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
+  }
+}
+
+/* Keyframe animations */
+@keyframes ambient-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-100vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(-20px);
+    opacity: 0;
+  }
+}
+
+@keyframes snow-fall {
+  0% {
+    transform: translateY(-100vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(100vh) translateX(100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes cloud-drift {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100vw);
+  }
+}
+
+@keyframes lightning-flash {
+  0%, 90%, 100% {
+    opacity: 0;
+  }
+  92%, 94%, 96% {
+    opacity: 1;
+  }
+  93%, 95% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes star-twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fog-drift {
+  0% {
+    transform: translateX(-10%) translateY(0);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(10%) translateY(-10px);
+    opacity: 0.3;
+  }
+}
+
+@keyframes wind-sway {
+  0%, 100% {
+    transform: rotate(-2deg) translateX(-5px);
+  }
+  50% {
+    transform: rotate(2deg) translateX(5px);
+  }
+}
+
+/* Animation utility classes */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-rain {
+  animation: rain-fall linear infinite;
+}
+
+.animate-snow {
+  animation: snow-fall linear infinite;
+}
+
+.animate-cloud {
+  animation: cloud-drift linear infinite;
+}
+
+.animate-lightning {
+  animation: lightning-flash 4s ease-in-out infinite;
+}
+
+.animate-star {
+  animation: star-twinkle ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.animate-fog {
+  animation: fog-drift 20s ease-in-out infinite alternate;
+}
+
+.animate-wind {
+  animation: wind-sway 3s ease-in-out infinite;
+}
